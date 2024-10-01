@@ -34,3 +34,20 @@ response = client.create_table(
 waiter = client.get_waiter('table_exists')
 waiter.wait(TableName=tableName)
 ``` 
+
+### Put some data on table
+
+```python
+# open resource
+resource = boto3.resource('dynamodb')
+# select table
+table = resource.Table(tableName)
+# put data
+table.put_item(
+        Item={
+            'UserId': note["UserId"],
+            'NoteId': int(note["NoteId"]),
+            'Note': note["Note"]
+        }
+    )
+```
