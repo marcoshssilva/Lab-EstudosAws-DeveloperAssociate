@@ -1,0 +1,36 @@
+## Commands
+
+### Import client
+
+```python
+client = boto3.client('dynamodb')
+``` 
+
+### Creating new table
+
+```python
+response = client.create_table(
+        AttributeDefinitions=[
+            { 'AttributeName': tableDefinition["partitionKey"], 'AttributeType': 'S', },
+            { 'AttributeName': tableDefinition["sortKey"], 'AttributeType': 'N', },
+        ],
+        KeySchema=[
+            { 'AttributeName': tableDefinition["partitionKey"], 'KeyType': 'HASH',
+            },
+            { 'AttributeName': tableDefinition["sortKey"], 'KeyType': 'RANGE',
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': int(tableDefinition["readCapacity"]),
+            'WriteCapacityUnits': int(tableDefinition["writeCapacity"]),
+        },
+        TableName=tableDefinition["tableName"]
+    )
+```
+
+### Awaiting create table
+
+```python
+waiter = client.get_waiter('table_exists')
+waiter.wait(TableName=tableName)
+``` 
