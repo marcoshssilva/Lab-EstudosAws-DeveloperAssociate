@@ -64,3 +64,25 @@ response = client.query(
         ProjectionExpression="NoteId, Note"
     )
 ```
+
+
+### Example paginator
+
+```python
+paginator = client.get_paginator('scan')
+
+page_iterator = paginator.paginate(
+    TableName=tableName,
+    PaginationConfig={
+    'PageSize': pageSize
+    })
+
+pageNumber = 0
+for page in page_iterator:
+    if page["Count"] > 0:
+        pageNumber += 1
+        print("Starting page " + str(pageNumber))
+        printNotes(page['Items'])
+        print("End of page " + str(pageNumber) + "\n")
+
+```
