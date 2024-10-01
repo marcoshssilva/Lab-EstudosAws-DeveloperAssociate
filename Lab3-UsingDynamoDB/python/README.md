@@ -51,3 +51,16 @@ table.put_item(
         }
     )
 ```
+
+### Filter data using ExpressionAttribute
+
+```python
+response = client.query(
+        TableName=tableName,
+        KeyConditionExpression='UserId = :userId',
+        ExpressionAttributeValues={
+            ':userId': {"S": qUserId}
+        },
+        ProjectionExpression="NoteId, Note"
+    )
+```
